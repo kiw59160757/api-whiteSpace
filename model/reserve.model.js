@@ -18,17 +18,17 @@ const reserve = new Schema({
             time: {
                 type: String,
             },
-            status: {
-                type: String,
-                default:'A' , // A action C close // S Admin
-            },
             group: [
                 {
                     groupId: {
                         type: mongoose.Schema.Types.ObjectId,
                         ref: "groups",
-                        required: ["กรุณากรอกข้อมูลเวลาให้ครบถ้วน"],
-                    }
+                        default: null,
+                    },
+                    status: {
+                        type: String,
+                        default: 'A', // A action C cencel // S Admin
+                    },
                 }
             ]
         }

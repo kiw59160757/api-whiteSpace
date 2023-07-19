@@ -9,13 +9,12 @@ const initialAdmin = async () => {
     if (count > 0) {
       return;
     }
-    const salt = await bcrpyt.genSalt(10);
-    const hashedPassword = await bcrpyt.hash("test123456", salt);
+
     const newAdmin = new modelAdmin({
       firstName: "admin",
       lastName: "admin",
       username: "admin",
-      password: hashedPassword,
+      password: 'test123456',
     });
     await newAdmin.save();
   } catch (error) {
@@ -82,7 +81,7 @@ const signIn = async (req, res) => {
     const check = await bcrpyt.compare(password, result.password);
 
     if (check) {
-      res.send({
+      res.json({
         success: true,
         token: Token.generateToken({ id: result._id }),
         refreshToken: Token.generateRefreshToken({ id: result._id }),
@@ -93,14 +92,14 @@ const signIn = async (req, res) => {
         },
       });
     } else {
-      res.status(500).send({
+      res.status(500).json({
         error: 1,
         message: "Invalid password",
         success: false,
       });
     }
   } else {
-    res.status(500).send({
+    res.status(500).json({
       error: 1,
       message: "Invalid password",
       success: false,

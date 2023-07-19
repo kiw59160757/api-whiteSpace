@@ -21,7 +21,7 @@ const add = async (req, res) => {
     try {
         await modelReserveSession.startTransaction();
         const Data = req.body
-        console.log('Data', Data);
+        const Date = moment(Data.date).format('YYYY-MM-DD')
 
         let user = await modelGroup.findOne({ lineId: Data.Profile.userId })
         if (!user) {
@@ -34,8 +34,8 @@ const add = async (req, res) => {
         }
         const reserve = await modelReserve.findOne({
             date: {
-                $gte: moment(Data.date).utc().startOf('day').format(),
-                $lt: moment(Data.date).utc().endOf('day').format()
+                $gte: moment(Date).utc().startOf('day').format(),
+                $lt: moment(Date).utc().endOf('day').format()
             }
         })
 
@@ -75,7 +75,7 @@ const add = async (req, res) => {
             }
         } else {
             const newReserve = new modelReserve({
-                date: moment(Data.date).utc().format(),
+                date: moment(Date).utc().format(),
                 slotTime: [
                     {
                         time: moment(Data.date).utc().format('HH'),
@@ -257,6 +257,9 @@ const getDateReserve = async (req, res) => {
         res.status(500).json({ message: 'เกิดข้อผิดพลาด' })
     }
 }
+
+
+
 
 module.exports = {
     add,

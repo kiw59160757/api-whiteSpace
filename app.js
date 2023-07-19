@@ -47,8 +47,8 @@ app.use("/website", express.static(path.join(__dirname, "html/home.html")));
 
 
 server = app.listen(3000, async () => {
-    console.log(moment('09', 'MM').locale('th').format('MMMM'));
     console.log(`Server Listening On Port ${3000}`)
+    console.log(moment().utc().format());
     // cron.schedule("* * * * *", botReseve);
 
 });
